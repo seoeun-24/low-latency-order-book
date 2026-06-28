@@ -4,12 +4,10 @@
 #include "Trade.h"
 void OrderBook::addOrder(Order order)
 {
-    // Pick the opposite side to try to match against.
+   
     std::vector<Order> &opposite = (order.side == Side::BUY) ? sellOrders : buyOrders;
 
-    // Walk through the opposite side looking for a price match.
-    // (We go through resting orders one by one — not sorted by price yet,
-    //  that's an optimization we'll add later.)
+   
     for (size_t i = 0; i < opposite.size() && order.quantity > 0;)
     {
         Order &restingOrder = opposite[i];
@@ -24,7 +22,7 @@ void OrderBook::addOrder(Order order)
             continue;
         }
 
-        // We have a match. Trade quantity is whatever's smaller.
+      
         int tradeQty = std::min(order.quantity, restingOrder.quantity);
 
         Trade trade{
@@ -43,16 +41,14 @@ void OrderBook::addOrder(Order order)
 
         if (restingOrder.quantity == 0)
         {
-            opposite.erase(opposite.begin() + i); // fully filled, remove it
-            // don't increment i, the next order has shifted into this index
+            opposite.erase(opposite.begin() + i); 
         }
         else
         {
-            i++; // partially filled, leave it, move on
+            i++;
         }
     }
 
-    // If anything's left unfilled, it rests in the book.
     if (order.quantity > 0)
     {
         if (order.side == Side::BUY)
