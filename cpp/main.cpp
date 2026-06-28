@@ -32,7 +32,7 @@ int main()
     std::uniform_int_distribution<int> sideDist(0, 1);
 
     // Pre-generate all orders first, so order generation itself
-    // doesn't get counted inside our timing measurements.
+   
     std::vector<Order> orders;
     orders.reserve(NUM_ORDERS);
     for (int i = 1; i <= NUM_ORDERS; i++)
@@ -44,6 +44,8 @@ int main()
     }
 
     // Now benchmark: time EACH individual addOrder() call.
+
+    
     std::vector<double> latenciesMicroseconds;
     latenciesMicroseconds.reserve(NUM_ORDERS);
 
